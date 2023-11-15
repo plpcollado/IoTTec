@@ -4,7 +4,7 @@ from gpiozero import DistanceSensor
 import threading
 import paho.mqtt.client as mqtt
 
-mqtt_broker = "your_mqtt_broker_address"
+mqtt_broker = "192.168.1.128"
 mqtt_port = 1883
 mqtt_topic = "rover/distance"
 
