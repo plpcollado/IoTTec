@@ -68,17 +68,21 @@ def read_temperature():
 
 
 #Rover------------------------------------
-def insertar_distancia(distancia):
+def batch_insert_distances(distancias):
     try:
         conexion = mysql.connector.connect(host=db_host, user=db_user, password=db_password, database=db_name)
         cursor = conexion.cursor()
-        query = "INSERT INTO carrito (distancia) VALUES (%s);"
-        cursor.execute(query, (distancia,))
+        query = "INSERT INTO carrito (distancia) VALUES (%s)"
+        print("Data to be inserted:", distancias)
+        cursor.executemany(query, distancias)
         conexion.commit()
         cursor.close()
         conexion.close()
     except Exception as e:
+        print("Data causando errores:", distancias)
         print("Error al insertar en la base de datos:", e)
+        
+
 
 def init():
     GPIO.setmode(GPIO.BCM)
@@ -137,6 +141,7 @@ def read_distance():
             start_reverse()
 
         time.sleep(0.1)  # Adjust as needed
+
 
 
 def main():
