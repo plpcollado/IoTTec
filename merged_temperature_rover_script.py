@@ -41,11 +41,40 @@ def rover_control():
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(17, GPIO.OUT)
         GPIO.setup(22, GPIO.OUT)
-        # Additional GPIO setup and control logic should be here
+        GPIO.setup(23, GPIO.OUT)
+        GPIO.setup(24, GPIO.OUT)
+    def start_forward():
+        init()
+        GPIO.output(17, True)
+        GPIO.output(22, False)
+        GPIO.output(23, False) 
+        GPIO.output(24, True)
 
-    init()  # Initializing rover GPIO setup
+    def start_reverse():
+        init()
+        GPIO.output(17, False)
+        GPIO.output(22, True)
+        GPIO.output(23, True) 
+        GPIO.output(24, False)
 
-    # Rover's main loop or control logic should be here
+    def stop():
+        GPIO.cleanup()
+
+    def read_distance():
+        sensor = DistanceSensor(echo=9, trigger=10)
+        while True:
+            cm = sensor.distance * 100
+            client.publish(mqtt_topic, cm)
+
+            if cm > 15:
+                start_forward()
+            else:
+                start_reverse()
+
+            time.sleep(0.1)  # Adjust for responsiveness
+    
+
+   
 
 # Running both functionalities in separate threads
 temperature_thread = threading.Thread(target=temperature_sensor)
