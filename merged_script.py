@@ -127,7 +127,7 @@ def read_distance():
         distance_readings.append((cm,))
 
         if len(distance_readings) >= batch_size:
-            batch_insert_distances(distance_readings)
+            insertar_distancia(distance_readings)
             distance_readings = []  # Reset the list after batch insert
 
         # Rover control logic here
