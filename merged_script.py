@@ -43,7 +43,9 @@ def batch_insert_temperatures(temperaturas):
         cursor.close()
         conexion.close()
     except Exception as e:
-        print("Error al insertar en la base de datos:", e)
+        print("Error al insertar en la base de datos, temperatura:", e)
+        print("Data causando errores:", temperaturas)
+
 
 # def read_temperature():
 #     while True:
@@ -68,17 +70,22 @@ def read_temperature():
 
 
 #Rover------------------------------------
-def insertar_distancia(distancia):
+def batch_insert_distances(distancias):
     try:
         conexion = mysql.connector.connect(host=db_host, user=db_user, password=db_password, database=db_name)
         cursor = conexion.cursor()
-        query = "INSERT INTO carrito (distancia) VALUES (%s);"
-        cursor.execute(query, (distancia,))
+        query = "INSERT INTO carrito (distancia) VALUES (%s)"
+        print("Data to be inserted:", distancias)
+        cursor.executemany(query, distancias)
         conexion.commit()
         cursor.close()
         conexion.close()
     except Exception as e:
-        print("Error al insertar en la base de datos:", e)
+        print("Error al insertar en la base de datos,distancia:", e)
+        print("Data causando errores:", distancias)
+
+        
+
 
 def init():
     GPIO.setmode(GPIO.BCM)
@@ -139,6 +146,7 @@ def read_distance():
         time.sleep(0.1)  # Adjust as needed
 
 
+
 def main():
     temperature_thread = threading.Thread(target=read_temperature)
     distance_thread = threading.Thread(target=read_distance)
@@ -146,8 +154,6 @@ def main():
     temperature_thread.start()
     distance_thread.start()
 
-    temperature_thread.join()
-    distance_thread.join()
 
 if __name__ == '__main__':
     main()  
