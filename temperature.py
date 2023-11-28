@@ -34,4 +34,4 @@ while True:
     insertar_temperatura(temperatura)
 
     # Espera antes de leer el siguiente valor (por ejemplo, 60 segundos)
-    time.sleep(1)
+    time.sleep(0.1)
