@@ -43,7 +43,9 @@ def batch_insert_temperatures(temperaturas):
         cursor.close()
         conexion.close()
     except Exception as e:
-        print("Error al insertar en la base de datos:", e)
+        print("Error al insertar en la base de datos, temperatura:", e)
+        print("Data causando errores:", temperaturas)
+
 
 # def read_temperature():
 #     while True:
@@ -79,8 +81,9 @@ def batch_insert_distances(distancias):
         cursor.close()
         conexion.close()
     except Exception as e:
+        print("Error al insertar en la base de datos,distancia:", e)
         print("Data causando errores:", distancias)
-        print("Error al insertar en la base de datos:", e)
+
         
 
 
@@ -151,8 +154,6 @@ def main():
     temperature_thread.start()
     distance_thread.start()
 
-    temperature_thread.join()
-    distance_thread.join()
 
 if __name__ == '__main__':
     main()  
