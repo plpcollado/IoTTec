@@ -50,6 +50,17 @@ def start_reverse():
     GPIO.output(23, True) 
     GPIO.output(24, False)
 
+def turn_right():
+    init()
+    # Assuming 17 and 24 control right motors and 22 and 23 control left motors
+    GPIO.output(17, True)
+    GPIO.output(22, False)
+    GPIO.output(23, False) 
+    GPIO.output(24, False)
+    #Allow the car to turn for 0.5 seconds
+
+
+
 def stop():
     GPIO.cleanup()
 
@@ -58,11 +69,10 @@ def read_distance():
     sensor = DistanceSensor(echo=9, trigger=10)
     while True:
         current_distance = sensor.distance * 100
-        # Control movement based on distance
-        if current_distance > 15:
-            start_forward()
+        if current_distance <= 15:
+            turn_right()
         else:
-            start_reverse()
+            start_forward()
         time.sleep(0.1)
 
 # Sensor Configuration
